@@ -1,0 +1,240 @@
+<Grid xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Background="#121212">
+
+    <Grid.Resources>
+        <!-- 1. ULTRA-SLIM SCROLLBAR (3px) -->
+        <Style TargetType="{x:Type ScrollBar}">
+            <Setter Property="Width" Value="3"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ScrollBar}">
+                        <Track x:Name="PART_Track" IsDirectionReversed="true">
+                            <Track.Thumb>
+                                <Thumb>
+                                    <Thumb.Template>
+                                        <ControlTemplate TargetType="{x:Type Thumb}">
+                                            <Border Background="#333333" CornerRadius="1.5"/>
+                                        </ControlTemplate>
+                                    </Thumb.Template>
+                                </Thumb>
+                            </Track.Thumb>
+                        </Track>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- 2. DARK SQUIRCLE COMBOBOX ITEM -->
+        <Style TargetType="ComboBoxItem">
+            <Setter Property="Foreground" Value="#EDEDED"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBoxItem">
+                        <Border x:Name="itemBorder" Background="{TemplateBinding Background}" CornerRadius="8" Padding="{TemplateBinding Padding}" Margin="2,2">
+                            <ContentPresenter TextElement.Foreground="{TemplateBinding Foreground}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsHighlighted" Value="True">
+                                <Setter TargetName="itemBorder" Property="Background" Value="#242424"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="#555555"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- 3. DARK SQUIRCLE COMBOBOX -->
+        <Style TargetType="ComboBox">
+            <Setter Property="Foreground" Value="#EDEDED"/>
+            <Setter Property="Background" Value="#181818"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <ToggleButton x:Name="ToggleButton" Background="#181818" BorderThickness="0" Focusable="false"
+                                          IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" ClickMode="Press">
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="ToggleButton">
+                                        <Border x:Name="btnBorder" Background="#181818" BorderBrush="#262626" BorderThickness="1" CornerRadius="10" Padding="14,8">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="18"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Path x:Name="Arrow" Grid.Column="1" Fill="#777777" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0 Z"/>
+                                            </Grid>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="btnBorder" Property="Background" Value="#222222"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <ContentPresenter Name="ContentSite" IsHitTestVisible="False" Content="{TemplateBinding SelectionBoxItem}"
+                                              ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                              Margin="14,0,24,0" VerticalAlignment="Center" HorizontalAlignment="Left" TextElement.Foreground="#EDEDED"/>
+                            <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
+                                <Grid Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <Border Background="#181818" BorderBrush="#282828" BorderThickness="1" CornerRadius="10" Margin="0,6,0,0" Padding="6">
+                                        <ScrollViewer SnapsToDevicePixels="True">
+                                            <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                        </ScrollViewer>
+                                    </Border>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- 4. SQUIRCLE CHIPS -->
+        <Style x:Key="SquircleChip" TargetType="Button">
+            <Setter Property="Background" Value="#181818"/>
+            <Setter Property="Foreground" Value="#959595"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="chip" Background="{TemplateBinding Background}" BorderBrush="#262626" BorderThickness="1" CornerRadius="12" Padding="14,7" Margin="5,3">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" TextElement.Foreground="{TemplateBinding Foreground}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="chip" Property="Background" Value="#242424"/>
+                                <Setter Property="Foreground" Value="#FFFFFF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Grid.Resources>
+
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/> <!-- Top Bar -->
+        <RowDefinition Height="*"/>    <!-- Responsive Feed -->
+        <RowDefinition Height="Auto"/> <!-- Chips -->
+        <RowDefinition Height="Auto"/> <!-- Responsive Input -->
+    </Grid.RowDefinitions>
+
+    <!-- 1. TOP CONTROL BAR -->
+    <Grid Grid.Row="0" Margin="28,16,28,10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Background="#181818" BorderBrush="#262626" BorderThickness="1" CornerRadius="12" Padding="12,6">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <Ellipse x:Name="AiStatusLight" Width="7" Height="7" Fill="#FFFFFF" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                <TextBlock x:Name="AiStatusText" Text="AI Engine Online" Foreground="#FFFFFF" FontWeight="SemiBold" FontSize="11"/>
+            </StackPanel>
+        </Border>
+
+        <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,12,0">
+            <TextBlock Text="Model" Foreground="#777777" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="12"/>
+            <ComboBox x:Name="AiModelComboBox" Width="290" Height="34"/>
+        </StackPanel>
+
+        <Button x:Name="AiBtnClear" Grid.Column="3" Content="Clear" Width="64" Height="34"
+                Background="#181818" Foreground="#888888" Cursor="Hand" FontSize="12">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="b" Background="{TemplateBinding Background}" BorderBrush="#262626" BorderThickness="1" CornerRadius="10">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="b" Property="Background" Value="#222222"/>
+                            <Setter Property="Foreground" Value="#FFFFFF"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+    </Grid>
+
+    <!-- 2. CONVERSATION SCROLLER (RESPONSIVE STRETCH, ZERO CLIPPING) -->
+    <ScrollViewer x:Name="AiChatScrollViewer" Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="0,6">
+        <Grid HorizontalAlignment="Stretch">
+            <!-- Center Column: Width controlled dynamically in code-behind (Max 960px, shrinks cleanly) -->
+            <StackPanel x:Name="AiChatPanel" HorizontalAlignment="Center">
+
+                <!-- Hero Overview (Fully Visible) -->
+                <Border x:Name="AiWelcomeHero" Background="#161616" BorderBrush="#242424" BorderThickness="1" CornerRadius="14" Padding="24,20" Margin="0,16,0,24" HorizontalAlignment="Stretch">
+                    <StackPanel>
+                        <TextBlock Text="Windows Healing System Intelligence" FontSize="15" FontWeight="Bold" Foreground="#FFFFFF" Margin="0,0,0,6"/>
+                        <TextBlock Text="Local, zero-telemetry diagnostics assistant. Ask regarding Windows 11 power states, debloating, safety ratings, or background telemetry."
+                                   Foreground="#888888" TextWrapping="Wrap" FontSize="13" LineHeight="20"/>
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+
+    <!-- 3. CHIPS -->
+    <WrapPanel Grid.Row="2" HorizontalAlignment="Center" Margin="0,6,0,10">
+        <Button x:Name="ChipStandby" Content="Laptop Battery Sleep Drain" Style="{StaticResource SquircleChip}"/>
+        <Button x:Name="ChipGaming" Content="Safe Gaming Tweaks" Style="{StaticResource SquircleChip}"/>
+        <Button x:Name="ChipTelemetry" Content="Disable Telemetry Safely" Style="{StaticResource SquircleChip}"/>
+        <Button x:Name="ChipEdge" Content="Remove Edge Browser" Style="{StaticResource SquircleChip}"/>
+    </WrapPanel>
+
+    <!-- 4. RESPONSIVE SQUIRCLE INPUT BAR (WITH WATERMARK PLACEHOLDER) -->
+    <Grid Grid.Row="3" Background="#121212" Margin="0,4,0,20">
+        <Border x:Name="InputContainerBorder" Background="#181818" BorderBrush="#262626" BorderThickness="1" CornerRadius="14" Padding="8,4" HorizontalAlignment="Center">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Input Text Box with Overlay Placeholder -->
+                <Grid Grid.Column="0">
+                    <TextBox x:Name="AiChatInput" Background="Transparent" Foreground="#FFFFFF" BorderThickness="0"
+                             Padding="14,10" FontSize="13.5" VerticalContentAlignment="Center" CaretBrush="#FFFFFF"
+                             Panel.ZIndex="1"/>
+
+                    <TextBlock x:Name="AiChatPlaceholder" Text="Ask Windows Healing AI anything (e.g. sleep battery drain, debloat, gaming)..."
+                               Foreground="#555555" FontSize="13.5" VerticalAlignment="Center" Margin="16,0,0,0"
+                               IsHitTestVisible="False" Panel.ZIndex="0"/>
+                </Grid>
+
+                <!-- Dynamic Action Button -->
+                <Button x:Name="AiBtnSend" Grid.Column="1" Width="40" Height="40" Margin="4,0,0,0" Cursor="Hand">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="btnBorder" Background="#FFFFFF" CornerRadius="10">
+                                <Path x:Name="SendIconPath" Width="14" Height="14" Stretch="Uniform" Fill="#121212"
+                                      Data="M 12 3 L 4 11 L 5.4 12.4 L 11 6.8 L 11 21 L 13 21 L 13 6.8 L 18.6 12.4 L 20 11 Z"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="btnBorder" Property="Background" Value="#242424"/>
+                                    <Setter TargetName="SendIconPath" Property="Fill" Value="#555555"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </Grid>
+        </Border>
+    </Grid>
+</Grid>

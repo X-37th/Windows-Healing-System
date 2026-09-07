@@ -1,0 +1,20 @@
+# Runtime logs
+Logs/
+*.log
+
+# Generated user configuration
+Config/LastUsedSettings.json
+Config/CustomAppsList
+WindowsHealingSystem-Config-*.json
+backup/
+# Temporary and local files
+*.tmp
+*.bak
+*.old
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
